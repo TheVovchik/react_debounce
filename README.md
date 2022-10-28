@@ -1,5 +1,5 @@
 
-[DEMO LINK](https://TheVovchik.github.io/react_movies-list-filter/)
+[DEMO LINK](https://thevovchik.github.io/react_debounce/)
 
 # Getting Started with Create React App
 
