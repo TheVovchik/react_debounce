@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 
+type Func = React.Dispatch<React.SetStateAction<string>>;
+
+function debouncer(f: Func, delay: number) {
+  let timerId: NodeJS.Timeout;
+
+  return (arg: string) => {
+    clearTimeout(timerId);
+    timerId = setTimeout(f, delay, arg);
+  }
+}
+
 function App() {
+  const [text, setText] = useState('example');
+  const [appliedText, setAppliedText] = useState(text);
+
+  const applyText = useCallback(debouncer(setAppliedText, 1000), []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Your text will appear here:</h1>
+      <p>{appliedText}</p>
+      <input 
+        id="input1" 
+        value={text}
+        onChange={event => {
+          setText(event.target.value);
+          applyText(event.target.value);
+        }}
+        />
     </div>
   );
 }
